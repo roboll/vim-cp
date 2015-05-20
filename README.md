@@ -10,6 +10,8 @@ the `:UpdateClasspath` command is provided to update the classpath of the neares
 ## classpath scopes
 support for multiple classpaths (i.e. compile, test, etc.) is provided by writing `.vimcp` files under `src/test/.vimcp, for example - buffers beneath there will give presidence to the test classpath due to it's locality.
 
+scopes are defined in the variable `g:vimcp\_scopes`, as a dict [scope_name : rel_path_to_vimcp/].
+
 ## exported data
 `b:vimcp` contains the classpath scoped to a given buffer.
 

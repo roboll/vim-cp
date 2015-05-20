@@ -46,18 +46,19 @@ function tools#maven_write_classpath(root)
 	let mvn_cmd = "mvn dependency:build-classpath "
 	let mvn_log = ">> ~/.vim/vimcp.log"
 
-	call s:exec_in_dir(a:root, mvn_cmd . "-Dmdep.outputFile=.vimcp -DincludeScope=compile" . mvn_log)
-	call s:exec_in_dir(a:root, mvn_cmd . "-Dmdep.outputFile=src/test/.vimcp -DincludeScope=test" . mvn_log)
-	return
+	for scope in keys(g:vimcp_scopes)
+		call s:exec_in_dir(a:root, mvn_cmd . "-Dmdep.outputFile=" . g:vimcp_scopes[scope] . ".vimcp -DincludeScope=" . scope . mvn_log)
+	endfor
 endfunction
 
 "
 " sbt
 "
 function tools#sbt_write_classpath(root)
-	for cmd in ["sbt --error -Dsbt.log.noformat=true 'export compile:full-classpath'", "sbt --error -Dsbt.log.noformat=true 'export test:full-classpath'"]
-	
-		let is_test = !empty(matchstr(cmd, '\c.*\(test\)'))
+	for scope in keys(g:vimcp_scopes)
+		let cmd = "sbt --error -Dsbt.log.noformat=true 'export " .scope. ":full-classpath'"
+		let cp_file = g:vimcp_scopes[scope] . ".vimcp"
+
 		let cmd_output = s:exec_in_dir(a:root, cmd)
 
 		let splitted = split(cmd_output, "\n")
@@ -67,23 +68,26 @@ function tools#sbt_write_classpath(root)
 			let submodule = matchstr(splitted[index], '\c\zs.\{-}\ze/\.*')
 			let classpath = splitted[index+1]
 
-			let submodule_dir = fnamemodify(finddir(submodule, "./**"), ":p")
+			let submodule_dir = finddir(submodule, a:root . "/**")
 
-			if empty(submodule_dir) 
-				if ! empty(matchstr(a:root, '\c.*\(' . submodule .'\)'))
+			if empty(submodule_dir)
+				if !empty(matchstr(a:root, '\c.*\(' . submodule .'\)'))
 					let submodule_dir = a:root
 				endif
-			else
-				let filename = ".vimcp"
-				if is_test
-					let filename = "/src/test/.vimcp"
+			endif
+			
+			if !empty(submodule_dir)
+				let full_dir = fnamemodify(submodule_dir, ":p")  
+				
+				let cp_path = fnamemodify(cp_file, ":h")
+				if !isdirectory(cp_path)
+					call mkdir(cp_path, "p")
 				endif
-				call writefile([classpath], submodule_dir . filename)
+				call writefile([classpath], full_dir . cp_file)
 			endif
 
-			let index = index+2
+			let index = index + 2
 		endwhile
 
-	endfor
-	return
+	endfor	
 endfunction

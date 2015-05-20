@@ -1,6 +1,9 @@
 " vimcp.vim
 " Maintainer: rob boll <http://robertcboll.com>
 
+" map of {scope_name : scope_path}
+let g:vimcp_scopes = {"compile" : "", "test" : "src/test/"}
+
 call classpaths#set_vimcp_for_buffer()
 
 " update classpath closest to this buffer
