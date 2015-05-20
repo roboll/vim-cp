@@ -57,37 +57,48 @@ endfunction
 function tools#sbt_write_classpath(root)
 	for scope in keys(g:vimcp_scopes)
 		let cmd = "sbt --error -Dsbt.log.noformat=true 'export " .scope. ":full-classpath'"
-		let cp_file = g:vimcp_scopes[scope] . ".vimcp"
+		
+		let cp_path = g:vimcp_scopes[scope]
+		let cp_file = cp_path . ".vimcp"
+		
+		if !isdirectory(cp_path)
+			call mkdir(cp_path, "p")
+		endif
 
 		let cmd_output = s:exec_in_dir(a:root, cmd)
 
 		let splitted = split(cmd_output, "\n")
-		let index = 0
+		
+		if len(splitted) ==# 1
+			let classpath = splitted[0]
+
+			echo "classpath is " . classpath
+			echo "writing it to " . cp_file
+
+			call writefile([classpath], a:root . "/" . cp_file)
+		else
+			let index = 0
 	
-		while index < len(splitted) 
-			let submodule = matchstr(splitted[index], '\c\zs.\{-}\ze/\.*')
-			let classpath = splitted[index+1]
+			while index < len(splitted) 
+				let submodule = matchstr(splitted[index], '\c\zs.\{-}\ze/\.*')
+				let classpath = splitted[index+1]
 
-			let submodule_dir = finddir(submodule, a:root . "/**")
+				let submodule_dir = finddir(submodule, a:root . "/**")
 
-			if empty(submodule_dir)
-				if !empty(matchstr(a:root, '\c.*\(' . submodule .'\)'))
-					let submodule_dir = a:root
+				if empty(submodule_dir)
+					if !empty(matchstr(a:root, '\c.*\(' . submodule .'\)'))
+						let submodule_dir = a:root
+					endif
 				endif
-			endif
 			
-			if !empty(submodule_dir)
-				let full_dir = fnamemodify(submodule_dir, ":p")  
-				
-				let cp_path = fnamemodify(cp_file, ":h")
-				if !isdirectory(cp_path)
-					call mkdir(cp_path, "p")
+				if !empty(submodule_dir)
+					let full_dir = fnamemodify(submodule_dir, ":p")  
+					call writefile([classpath], full_dir . cp_file)
 				endif
-				call writefile([classpath], full_dir . cp_file)
-			endif
 
-			let index = index + 2
-		endwhile
+				let index = index + 2
+			endwhile
+		endif
 
 	endfor	
 endfunction
