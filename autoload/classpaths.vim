@@ -13,5 +13,29 @@ function classpaths#set_vimcp_for_buffer()
 		endif
 	endif
 
-	return
+	call javacomplete#AddClassPath(b:vimcp)
+endfunction
+
+" update classpath closest to this buffer
+function classpaths#update_classpath() 
+	let rootdir = ""
+	let toolname = ""
+
+	for tool in ["maven", "sbt"]
+		let rootdir = tools#find_tool_root("" . tool) 
+		
+		" found a project root
+		if rootdir !=# ""
+			break
+		endif
+	endfor
+
+	echon "updating classpaths (may take a minute)... "
+	execute "call tools#" . tool . "_write_classpath(\"" . rootdir . "\")"
+	echon "complete!"
+endfunction
+
+" delete classpath closest to this buffer
+function classpaths#delete_classpath()
+	delete(findfile(".vimcp", ".;"))
 endfunction
