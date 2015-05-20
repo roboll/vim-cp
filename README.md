@@ -14,5 +14,23 @@ support for multiple classpaths (i.e. compile, test, etc.) is provided by writin
 `b:vimcp` contains the classpath scoped to a given buffer.
 
 ## build tool detection
-`maven` is detected by the presence of a `pom.xml`.
-`sbt` is detected primarily by the presence of `build.sbt`, falling back to `sbt` (for those using a wrapper script).
+
+### maven
+the root is determined by traversing upward to the first directory containing a `pom.xml`. this results in commands being run on submodules in multi module projects.
+
+dependencies are output using the following command. 
+`mvn dependency:build-classpath -Dmdep.outputFile={{outputfile}} -DincludeScope={{scope}}`
+
+### sbt
+the root is determined first by the presence of `build.sbt`. if none, fallback to `sbt` for those using an sbt wrapper script and `.scala` build definitions.
+
+dependencies are output using the following command.
+`sbt "export {{scope}}:full-classpath"`
+
+output is:
+```
+	{{modulename}}/{{scope}}:fullClasspath
+	{{classpath}}
+
+```
+module name is parsed and a best effort search for a directory of that name is performed. the first, if any, gets `.vimcp` written in that directory. _it is crucial that module names reflect the name of the directory they are found in._

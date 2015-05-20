@@ -1,5 +1,5 @@
 " tools.vim
-" Maintainer: rob boll <http://robertcboll.com>
+" Maintainer: rob boll @robertcboll
 
 "
 " utilities
@@ -67,7 +67,6 @@ function tools#sbt_write_classpath(root)
 			let submodule = matchstr(splitted[index], '\c\zs.\{-}\ze/\.*')
 			let classpath = splitted[index+1]
 
-			" TODO document this best effort to find the directory
 			let submodule_dir = fnamemodify(finddir(submodule, "./**"), ":p")
 
 			if empty(submodule_dir) 
