@@ -13,7 +13,13 @@ function classpaths#set_vimcp_for_buffer()
 		endif
 	endif
 
-	call javacomplete#AddClassPath(b:vimcp)
+	if exists("g:loaded_javacompleteplugin")
+		call javacomplete#AddClassPath(b:vimcp)
+	endif
+
+	if exists("g:loaded_syntastic_plugin")
+		let g:syntastic_java_javac_classpath = b:vimcp
+	endif
 endfunction
 
 " update classpath closest to this buffer

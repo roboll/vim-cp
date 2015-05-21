@@ -72,9 +72,6 @@ function tools#sbt_write_classpath(root)
 		if len(splitted) ==# 1
 			let classpath = splitted[0]
 
-			echo "classpath is " . classpath
-			echo "writing it to " . cp_file
-
 			call writefile([classpath], a:root . "/" . cp_file)
 		else
 			let index = 0
