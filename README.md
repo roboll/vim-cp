@@ -36,3 +36,17 @@ output is:
 
 ```
 module name is parsed and a best effort search for a directory of that name is performed. the first, if any, gets `.vimcp` written in that directory. _it is crucial that module names reflect the name of the directory they are found in._
+
+## integrations
+
+### syntastic
+if syntastic is loaded in vim, sets the syntastic java_javac classpath.
+
+### javacomplete
+if javacomplete is loaded, sets the classpath for autocomplete.
+
+## TODO
+[] handle errors on classpath generation
+[] source path for javacomplete
+[] test goto definitions javacomplete
+[] test javadoc and source jar classpaths with javacomplete
