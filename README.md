@@ -1,6 +1,6 @@
 # vim-cp
 
-this plugin sets the classpath for jvm based projects using [http://maven.apache.org](maven), [http://scala-sbt.org](sbt) - and eventually [http://gradle.org](gradle) and [http://lieningen.org](leiningen).
+this plugin sets the classpath for jvm based projects using [maven](http://maven.apache.org), [sbt](http://scala-sbt.org) - and eventually [gradle](http://gradle.org) and [leiningen](http://lieningen.org).
 
 classpaths are exported from the build tool and stored in dotfiles in the codebase - called `.vimcp`. the classpath for a given buffer is discovered by traversing up the filesystem until a `.vimcp` file is found.
 
