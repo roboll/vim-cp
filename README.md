@@ -4,6 +4,12 @@ this plugin sets the classpath for jvm based projects using [http://maven.apache
 
 classpaths are exported from the build tool and stored in dotfiles in the codebase - called `.vimcp`. the classpath for a given buffer is discovered by traversing up the filesystem until a `.vimcp` file is found.
 
+## inspiration & credit
+https://github.com/tpope/vim-classpath
+
+## license
+<todo> apply a license
+
 ## commands
 the `:UpdateClasspath` command is provided to update the classpath of the nearest module, found based on conventions of the build tool.
 
