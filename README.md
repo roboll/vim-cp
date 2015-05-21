@@ -53,6 +53,9 @@ if javacomplete is loaded, sets the classpath for autocomplete.
 
 ## TODO
 [] handle errors on classpath generation
+
 [] source path for javacomplete
+
 [] test goto definitions javacomplete
+
 [] test javadoc and source jar classpaths with javacomplete
