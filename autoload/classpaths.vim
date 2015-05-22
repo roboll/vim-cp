@@ -19,6 +19,7 @@ function classpaths#set_vimcp_for_buffer()
 
 	if exists("g:loaded_syntastic_plugin")
 		let g:syntastic_java_javac_classpath = b:vimcp
+		let g:syntastic_scala_scalac_classpath = b:vimcp
 	endif
 endfunction
 
