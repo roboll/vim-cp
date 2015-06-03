@@ -66,42 +66,42 @@ endfunction
 function vimcp#paths#download_deps()
 	call s:set_rootdir_and_tool()
 	echon "downloading deps from " . s:tool . "..."
-	exe "call vimcp#tools#" . s:tool . "_pull_deps(\"" . s:rootdir . "\")"
+	exe "call vimcp#tools#" . s:tool . "#pull_deps(\"" . s:rootdir . "\")"
 	echon "complete!  "
 endfunction
 
 function vimcp#paths#download_sources()
 	call s:set_rootdir_and_tool()
 	echon "downloading sources from " . s:tool . "..."
-	exe "call vimcp#tools#" . s:tool . "_pull_sources(\"" . s:rootdir ."\")"
+	exe "call vimcp#tools#" . s:tool . "#pull_sources(\"" . s:rootdir ."\")"
 	echon "complete!  "
 endfunction
 
 function vimcp#paths#download_all()
 	call s:set_rootdir_and_tool()
 	echon "downloading deps and sources from " . s:tool . "..."
-	exe "call vimcp#tools#" . s:tool . "_pull_deps(\"" . s:rootdir . "\")"
-	exe "call vimcp#tools#" . s:tool . "_pull_sources(\"" . s:rootdir ."\")"
+	exe "call vimcp#tools#" . s:tool . "#pull_deps(\"" . s:rootdir . "\")"
+	exe "call vimcp#tools#" . s:tool . "#pull_sources(\"" . s:rootdir ."\")"
 	echon "complete!  "
 endfunction
 
 " update classpath closest to this buffer
 function vimcp#paths#write_and_set_paths() 
 	call s:set_rootdir_and_tool()
-	let sp = "call vimcp#tools#" . s:tool . "_write_sourcepath(\"" . s:rootdir . "\")"
-	let cp = "call vimcp#tools#" . s:tool . "_write_classpath(\"" . s:rootdir . "\")"
+	let sp = "call vimcp#tools#" . s:tool . "#write_sourcepath(\"" . s:rootdir . "\")"
+	let cp = "call vimcp#tools#" . s:tool . "#write_classpath(\"" . s:rootdir . "\")"
 	call s:write_paths([sp, cp])
 endfunction
 
 function vimcp#paths#write_class_path()
 	call s:set_rootdir_and_tool()
-	let cp = "call vimcp#tools#" . s:tool . "_write_classpath(\"" . s:rootdir . "\")"
+	let cp = "call vimcp#tools#" . s:tool . "#write_classpath(\"" . s:rootdir . "\")"
 	call s:write_paths([cp])
 endfunction
 
 function vimcp#paths#write_source_path()
 	call s:set_rootdir_and_tool()
-	let sp = "call vimcp#tools#" . s:tool . "_write_sourcepath(\"" . s:rootdir . "\")"
+	let sp = "call vimcp#tools#" . s:tool . "#write_sourcepath(\"" . s:rootdir . "\")"
 	call s:write_paths([sp])
 endfunction
 
