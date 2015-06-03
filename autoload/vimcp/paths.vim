@@ -5,7 +5,7 @@
 function s:set_rootdir_and_tool()
 	let s:rootdir = ""
 
-	for tool in ["maven", "sbt"]
+	for tool in ["lein", "maven", "sbt"]
 		let s:rootdir = vimcp#tools#find_tool_root(tool) 
 		let s:tool = tool
 

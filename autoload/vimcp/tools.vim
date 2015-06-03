@@ -32,6 +32,15 @@ function s:find_root(filename)
 endfunction
 
 function vimcp#tools#find_tool_root(tool)
+	if a:tool ==# "lein"
+		let found = s:find_root("project.clj")
+		if empty(found)
+			return ""
+		else
+			return fnamemodify(found, ":p:h")
+		endif
+	endif
+
 	if a:tool ==# "maven"
 		let found = s:find_root("pom.xml")
 		if empty(found)
