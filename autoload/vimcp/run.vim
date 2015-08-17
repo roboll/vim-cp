@@ -10,6 +10,6 @@ function g:vimcp#run#javac_cmd()
 endfunction
 
 function g:vimcp#run#java_run()
-    execute g:vimcp#run#javac_cmd().' '.expand('%:p')
-    execute g:vimcp#run#java_cmd().' '.expand('%:t:r')
+    execute '!'.g:vimcp#run#javac_cmd().' '.expand('%:p')
+    execute '!'.g:vimcp#run#java_cmd().' '.expand('%:t:r')
 endfunction
