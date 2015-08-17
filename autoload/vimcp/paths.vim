@@ -44,7 +44,6 @@ function vimcp#paths#set_paths_for_buffer(force)
 	if exists("g:loaded_javacompleteplugin")
 		if exists("b:vimcp")
 			if !empty(b:vimcp)
-				let CLASSPATH=b:vimcp
 				call javacomplete#SetClassPath(b:vimcp)
 			endif
 		endif
