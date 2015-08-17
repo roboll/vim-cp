@@ -6,7 +6,7 @@ function s:set_rootdir_and_tool()
 	let s:rootdir = ""
 
 	for tool in ["lein", "maven", "sbt"]
-		let s:rootdir = vimcp#tools#find_tool_root(tool) 
+		let s:rootdir = vimcp#tools#find_tool_root(tool)
 		let s:tool = tool
 
 		" found a project root
@@ -31,12 +31,12 @@ function vimcp#paths#set_paths_for_buffer(force)
 	" check if its set
 	for path in ["vimcp", "vimsp"]
 		let it = "b:" . path
-		if !exists("b:" . path) || a:force ==# 1 
+		if !exists("b:" . path) || a:force ==# 1
 			let pathfile = findfile("." . path, ".;")
 			if filereadable(pathfile)
 				exe "let b:" . path . " = \"" . join(readfile(pathfile)) . "\""
 			else
-				exe "let b:" . path . " = \"\""	
+				exe "let b:" . path . " = \"\""
 			endif
 		endif
 	endfor
@@ -44,6 +44,7 @@ function vimcp#paths#set_paths_for_buffer(force)
 	if exists("g:loaded_javacompleteplugin")
 		if exists("b:vimcp")
 			if !empty(b:vimcp)
+				let CLASSPATH=b:vimcp
 				call javacomplete#SetClassPath(b:vimcp)
 			endif
 		endif
@@ -59,7 +60,7 @@ function vimcp#paths#set_paths_for_buffer(force)
 		if exists("b:vimcp")
 			let g:syntastic_java_javac_classpath = b:vimcp
 			let g:syntastic_scala_scalac_classpath = b:vimcp
-		endif	
+		endif
 	endif
 endfunction
 
@@ -86,7 +87,7 @@ function vimcp#paths#download_all()
 endfunction
 
 " update classpath closest to this buffer
-function vimcp#paths#write_and_set_paths() 
+function vimcp#paths#write_and_set_paths()
 	call s:set_rootdir_and_tool()
 	let sp = "call vimcp#tools#" . s:tool . "#write_sourcepath(\"" . s:rootdir . "\")"
 	let cp = "call vimcp#tools#" . s:tool . "#write_classpath(\"" . s:rootdir . "\")"
