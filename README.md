@@ -14,11 +14,11 @@ traversing up the filesystem until a `.vimcp` file is found.
 
 ## license
 
-!!todo apply a license
+MIT
 
 ## commands
 
-the `:UpdateClasspath` command is provided to update the classpath of the
+the `:CP<...>` commands are provided to update the classpath of the
 nearest module, found based on conventions of the build tool.
 
 ## classpath scopes
@@ -27,7 +27,7 @@ support for multiple classpaths (i.e. compile, test, etc.) is provided by
 writing `.vimcp` files under `src/test/.vimcp, for example - buffers beneath
 there will give presidence to the test classpath due to it's locality.
 
-scopes are defined in the variable `g:vimcp\_scopes`, as a dict {scope_name :
+scopes are defined in the variable `g:vimcp_scopes`, as a dict {scope_name :
 rel_path_to_vimcp/}.
 
 ## exported data
@@ -57,19 +57,16 @@ rel_path_to_vimcp/}.
 
 output is:
 
-``` {{modulename}}/{{scope}}:fullClasspath {{classpath}}
-
-```
+`{{modulename}}/{{scope}}:fullClasspath {{classpath}}`
 
 module name is parsed and a best effort search for a directory of that name is
-performed. the first, if any, gets `.vimcp` written in that directory. _it is
-crucial that module names reflect the name of the directory they are found in._
+performed. the first, if any, gets `.vimcp` written in that directory. module names __must__ reflect the name of the directory they are found in.
 
 ## integrations
 
 ### syntastic
 
-if syntastic is loaded in vim, sets the syntastic java\_javac classpath.
+if syntastic is loaded in vim, sets the syntastic `java_javac` checker classpath.
 
 ### javacomplete
 
